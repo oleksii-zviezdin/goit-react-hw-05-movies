@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { fetchSearchMovie } from "components/fetchAPI"
+import { SearchButton } from "./Movies.styled"
 const { Link, useSearchParams, useLocation } = require("react-router-dom")
 
 const Movies = () => {
@@ -41,15 +42,16 @@ const handleSubmit = e => {
                     type="text"
                     value={movieId}
                 />
-                <button type="submit">Search</button>
+                <SearchButton type="submit">Search</SearchButton>
             </form>
             {data.length !== 0 &&
             <>
                 <div>
                     <ul>
-                        {data.map(({ id, title }) => <li key={id}>
-                            <Link to={`${id}`} state={{ from: urlLocationMovies }}>{title}</Link>
-                        </li>)}
+                        {data.map(({ id, title }) =>
+                            <li key={id}>
+                                <Link to={`${id}`} state={{ from: urlLocationMovies }}>{title}</Link>
+                            </li>)}
                     </ul>
                 </div>
             </>}

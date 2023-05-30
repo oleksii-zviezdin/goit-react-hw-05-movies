@@ -3,12 +3,13 @@ import Layout from "./Layout";
 import Home from "../pages/Home/Home";
 import Movies from "../pages/Movies/Movies";
 import MovieDetails from "pages/MovieDetails/MovieDetails";
+import { Container } from "../components/App.styled";
 
 
 
 export const App = () => {
   return (
-    <div>
+    <Container>
       <Routes>
         <Route path="/" element={<Layout/>}>
           <Route index element={<Home/>}/>
@@ -17,6 +18,6 @@ export const App = () => {
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>
-    </div>
+    </Container>
   );
 };

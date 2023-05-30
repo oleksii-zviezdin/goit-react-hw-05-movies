@@ -60,4 +60,24 @@ const fetchMovieById = (movieId, setDataMovie) => {
         .catch(err => console.error('error:' + err));
 }
 
-export {fetchSearchMovie, fetchTrandingMovies, fetchMovieById}
+const fetchCreditsById = (movieId) => {
+
+    const fetch = require('node-fetch');
+    
+    const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`;
+    const options = {
+        method: 'GET',
+        headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYTBkOGUyNTQ0ZTgxNzg3NTJlYTQ3YTI0ZGI3NjFkOCIsInN1YiI6IjY0NmQxOTYxYzM1MTRjMmIwNjg4OTdiOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1c5ZzEt1F0rRDlRLvBxcNocvVNrwAuMtwV3umPbxDRg'
+    }
+    };
+    
+    fetch(url, options)
+    .then(res => res.json())
+    .then(json => console.log(json))
+    .catch(err => console.error('error:' + err));
+}
+
+
+export {fetchSearchMovie, fetchTrandingMovies, fetchMovieById, fetchCreditsById}

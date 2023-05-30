@@ -1,27 +1,20 @@
-import styled from "@emotion/styled";
-import { NavLink, Outlet } from "react-router-dom";
-const StyledLink = styled(NavLink)`
-    color: black;
-
-    &.active {
-        color: orange;
-}
-`;const Layout = () => {
+import {  Outlet } from "react-router-dom";
+import { Header,StyledLink, ListItem ,NavList} from "./Layout.styled";
+const Layout = () => {
     return (
         <>
-            <header>
+            <Header>
                 <nav>
-                    <ul>
-                        <li>
-                        <StyledLink to="/">NavLink-Home </StyledLink>
-                        </li>
-                        <li>
-                        <StyledLink to="/movies">NavLink-Movies</StyledLink>
-                        </li>
-                    </ul>
+                    <NavList>
+                        <ListItem>
+                        <StyledLink to="/">Home </StyledLink>
+                        </ListItem>
+                        <ListItem>
+                        <StyledLink to="/movies">Movies</StyledLink>
+                        </ListItem>
+                    </NavList>
                 </nav>
-            <hr />
-            </header>
+            </Header>
             <Outlet />
         </>
     )

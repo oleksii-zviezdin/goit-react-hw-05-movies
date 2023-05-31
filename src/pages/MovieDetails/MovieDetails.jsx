@@ -47,8 +47,6 @@ const MovieDetails = () => {
             <div>
                 <h4>Additional information</h4>
                 <ul>
-                    {/* <Link to={`credits`} ><li>Credits</li></Link> */}
-                    {/* <Link to={`reviews`} ><li>Reviews</li></Link> */}
                     <Link to={`credits`} state={{from: urlLocation.state ? urlLocation.state.from  :'/movies'}}><li>Credits</li></Link>
                     <Link to={`reviews`}state={{from: urlLocation.state ? urlLocation.state.from  :'/movies'}}><li>Reviews</li></Link>
                 </ul>

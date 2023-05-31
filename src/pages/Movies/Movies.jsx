@@ -1,49 +1,30 @@
 import { useEffect, useState } from "react"
 import { fetchSearchMovie } from "components/fetchAPI"
-import { SearchButton } from "./Movies.styled"
+import { useRef } from "react"
+import Searchbar from "components/Searchbar"
 const { Link, useSearchParams, useLocation } = require("react-router-dom")
 
 const Movies = () => {
     const [data, setData] = useState([]);
     const [value, setValue] = useState(``); // записую значення попереднього запиту у ф-ції fetchSearchMovie
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
+    let movieId = searchParams.get(`movieId`) ?? "";
+    const previousValue = useRef(movieId);
 
-    const movieId = searchParams.get(`movieId`) ?? "";
     const urlLocationMovies = useLocation();
 
-    const handleChange = e => {
-        const inputValue = e.currentTarget.value;
-        if (inputValue === '') {
-            return setSearchParams({})
-        }
-        setSearchParams({movieId: inputValue})
-    }
-        
-        useEffect(() => {
-            if (data.length !== 0 || movieId === '' || movieId === value) {
-                return
-            } else {
-                fetchSearchMovie(movieId, setData, setValue)
-            }
-        
-    },[data.length, movieId, value])
-
-const handleSubmit = e => {
-    e.preventDefault()
-    if(value === movieId) return
-    fetchSearchMovie(movieId, setData, setValue)
+    useEffect(() => {
+        if(previousValue.current === movieId) fetchSearchMovie(movieId, setData, setValue);
+    }, [movieId])
+    
+    const handleSubmit = searchMovieId => {
+        if(value === searchMovieId) return
+        fetchSearchMovie(searchMovieId, setData, setValue)
     };
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <input
-                    onChange={handleChange}
-                    type="text"
-                    value={movieId}
-                />
-                <SearchButton type="submit">Search</SearchButton>
-            </form>
+            <Searchbar handleSubmit={handleSubmit} searchValue={value} />
             {data.length !== 0 &&
             <>
                 <div>

@@ -30,7 +30,7 @@ const fetchSearchMovie = (value, setData, setValue) => {
         }
     }
     if (!trimValue) {
-        return alert(`field cannot be empty`)
+        return
     }
     fetch(url, options)
         .then(res => res.json())

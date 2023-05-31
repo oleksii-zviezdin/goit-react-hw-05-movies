@@ -15,6 +15,7 @@ const MovieDetails = () => {
 
     let IMG = null;
     let releaseData = null;
+    
     if (dataMovie) {
         IMG = dataMovie.poster_path ? `https://image.tmdb.org/t/p/w500/${dataMovie.poster_path}` : `https://via.placeholder.com/500x750`;
         releaseData = dataMovie.release_date ? `(${dataMovie.release_date.slice(0, 4)})` : '';

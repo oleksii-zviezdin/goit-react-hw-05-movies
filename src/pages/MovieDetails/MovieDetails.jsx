@@ -1,5 +1,5 @@
 import { fetchMovieById } from "components/fetchAPI";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BackBtn from "components/backBtn";
 import { MovieDetailsStyled } from "./MovieDetails.styled";
@@ -37,19 +37,22 @@ const MovieDetails = () => {
                         <span >User Score: {Math.round(dataMovie.vote_average * 10)}%</span>
                         <h2>Overview</h2>
                             <p>{dataMovie?.overview}</p>
-                            <p>{!dataMovie.overview && `We don't have any overwiev for this movie`}</p>
+                            {!dataMovie.overview && <p>We don't have any overwiev for this movie</p>}
                         <h3>Genres</h3>
                             {dataMovie?.genres && dataMovie.genres.map(({ name, id }) => <span key={id}>{name} </span>) }
-                            <p>{!dataMovie.genres.length && `We don't have any genres for this movie`}</p>
+                            {!dataMovie.genres.length && <p>We don't have any genres for this movie</p>}
                     </div>
                 </>}
             </MovieDetailsStyled>
             <div>
                 <h4>Additional information</h4>
                 <ul>
-                    <li>Credits</li>
-                    <li>Reviews</li>
+                    {/* <Link to={`credits`} ><li>Credits</li></Link> */}
+                    {/* <Link to={`reviews`} ><li>Reviews</li></Link> */}
+                    <Link to={`credits`} state={{from: urlLocation.state ? urlLocation.state.from  :'/movies'}}><li>Credits</li></Link>
+                    <Link to={`reviews`}state={{from: urlLocation.state ? urlLocation.state.from  :'/movies'}}><li>Reviews</li></Link>
                 </ul>
+                <Outlet/>
             </div>
             </>
     )

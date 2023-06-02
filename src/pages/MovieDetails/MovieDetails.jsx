@@ -1,4 +1,4 @@
-import { fetchMovieById } from "components/fetchAPI";
+import { fetchMovieById } from "service/fetchAPI";
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BackBtn from "components/backBtn";
@@ -9,17 +9,17 @@ const MovieDetails = () => {
     const { movieId } = useParams();
     const urlLocation = useLocation();
     
-    useEffect(() => {fetchMovieById(movieId, setDataMovie)
+    useEffect(() => {
+        fetchMovieById(movieId)
+        .then(movieData => setDataMovie(movieData))
+        .catch(err => console.error('error:' + err));
     }, [movieId,]);
-    console.log(dataMovie)
-
-    let IMG = null;
-    let releaseData = null;
     
-    if (dataMovie) {
-        IMG = dataMovie.poster_path ? `https://image.tmdb.org/t/p/w500/${dataMovie.poster_path}` : `https://via.placeholder.com/500x750`;
-        releaseData = dataMovie.release_date ? `(${dataMovie.release_date.slice(0, 4)})` : '';
-    }
+    if (!dataMovie) return
+
+    const IMG = dataMovie.poster_path ? `https://image.tmdb.org/t/p/w500/${dataMovie.poster_path}` : `https://via.placeholder.com/500x750`;
+    const releaseData = dataMovie.release_date ? `(${dataMovie.release_date.slice(0, 4)})` : '';
+    
     return (
         <>
             <Link to={urlLocation.state ? urlLocation.state.from  :'/movies'}><BackBtn /></Link>
@@ -34,7 +34,7 @@ const MovieDetails = () => {
                     </div>
                     <div>
                         <h1>{`${dataMovie.title} ${releaseData}`}</h1>
-                        <span >User Score: {Math.round(dataMovie.vote_average * 10)}%</span>
+                            <span >User Score: {Math.round(dataMovie.vote_average * 10)}%</span>
                         <h2>Overview</h2>
                             <p>{dataMovie?.overview}</p>
                             {!dataMovie.overview && <p>We don't have any overwiev for this movie</p>}
@@ -48,7 +48,11 @@ const MovieDetails = () => {
                 <h4>Additional information</h4>
                 <ul>
                     <Link to={`credits`} state={{from: urlLocation.state ? urlLocation.state.from  :'/movies'}}><li>Credits</li></Link>
-                    <Link to={`reviews`}state={{from: urlLocation.state ? urlLocation.state.from  :'/movies'}}><li>Reviews</li></Link>
+                    <Link to={`reviews`} state={{ from: urlLocation.state ? urlLocation.state.from : '/movies' }}><li>Reviews</li></Link>
+                    
+                    {/*при такому записі все працює до моменту, коли клікну на CREDITS або REVIEWS, Тоді при кліці на кнопку back мене ЗАВЖДИ перенаправляє ТІЛЬКИ на сторінку MOVIES навіть якщо я заходив з сторінки HOME, може я щось не так приписую...*/}
+                    {/* <Link to={`credits`} state={{from: urlLocation?.state?.from  && '/movies'}}><li>Credits</li></Link>
+                    <Link to={`reviews`} state={{from: urlLocation?.state?.from  && '/movies'}}><li>Reviews</li></Link> */}
                 </ul>
                 <Outlet/>
             </div>

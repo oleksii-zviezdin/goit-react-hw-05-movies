@@ -1,23 +1,25 @@
 
 import { useEffect, useState } from "react"
-import { fetchTrandingMovies } from "components/fetchAPI";
-import { Link, useLocation } from "react-router-dom";
+import { fetchTrandingMovies } from "service/fetchAPI";
+import { useLocation } from "react-router-dom";
+import MovieList from "components/MovieList/MovieList";
+
 
 const Home = () => {
     const [data, setData] = useState([]);
 
-    const ulrLocationHome = useLocation();
+    const urlLocation = useLocation();
     
     useEffect(() => {
-        if (!data.length) fetchTrandingMovies(setData)
-    }, [data]);
+        fetchTrandingMovies(setData)
+            .then(({ results }) => setData(results))
+            .catch(err => console.error('error:' + err))
+    }, []);
 
     return (
         <main>
             <h1>Trending today</h1>
-            <ul>
-                {data && data.map(({title, id}) => <li key={id}><Link to={`/movies/${id}`} state={{ from: ulrLocationHome }}>{title}</Link></li>)}
-            </ul>
+            <MovieList  data={data} location={urlLocation} />
         </main>
     )
 }

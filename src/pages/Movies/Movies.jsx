@@ -1,42 +1,42 @@
-import { useEffect, useState } from "react"
-import { fetchSearchMovie } from "components/fetchAPI"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { fetchSearchMovie } from "service/fetchAPI"
 import Searchbar from "components/Searchbar"
-const { Link, useSearchParams, useLocation } = require("react-router-dom")
+import { useSearchParams, useLocation } from "react-router-dom"
+import MovieList from "components/MovieList/MovieList"
 
 const Movies = () => {
     const [data, setData] = useState([]);
-    const [value, setValue] = useState(``); // записую значення попереднього запиту у ф-ції fetchSearchMovie
-    const [searchParams] = useSearchParams();
-    let movieId = searchParams.get(`movieId`) ?? "";
-    const previousValue = useRef(movieId);
-
-    const urlLocationMovies = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const movieId = searchParams.get(`movieId`) ?? "";
+    const previousMovieId = useRef(movieId)
+console.log(previousMovieId)
+    const urlLocation = useLocation();
 
     useEffect(() => {
-        if(previousValue.current === movieId) fetchSearchMovie(movieId, setData, setValue);
+        if (!movieId) return
+        
+        fetchSearchMovie(movieId)
+            .then(({ results }) => {
+                if (!results.length) throw new Error(`за запитом "${movieId}" нічого не знайдено`);
+                setData(results)
+            })
+            .catch(err => alert('error:' + err));
     }, [movieId])
     
     const handleSubmit = searchMovieId => {
-        if(value === searchMovieId) return
-        fetchSearchMovie(searchMovieId, setData, setValue)
+        console.log(`this is in Movies page ${searchMovieId}`)
+        
+        if (searchMovieId === ''|| !searchMovieId) return setSearchParams({})
+        setSearchParams({ movieId: searchMovieId })
+        fetchSearchMovie(searchMovieId)
     };
 
     return (
-        <>
-            <Searchbar handleSubmit={handleSubmit} searchValue={value} />
+        <main>
+            <Searchbar handleSubmit={handleSubmit}/>
             {data.length !== 0 &&
-            <>
-                <div>
-                    <ul>
-                        {data.map(({ id, title }) =>
-                            <li key={id}>
-                                <Link to={`${id}`} state={{ from: urlLocationMovies }}>{title}</Link>
-                            </li>)}
-                    </ul>
-                </div>
-            </>}
-        </>
+            <MovieList data={data} location={urlLocation} />}
+        </main>
     )
 }
 

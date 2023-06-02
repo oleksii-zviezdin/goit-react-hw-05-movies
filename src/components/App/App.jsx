@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "./Layout";
-import Home from "../pages/Home/Home";
-import Movies from "../pages/Movies/Movies";
+import Layout from "../Layout/Layout";
+import Home from "../../pages/Home/Home";
+import Movies from "../../pages/Movies/Movies";
 import MovieDetails from "pages/MovieDetails/MovieDetails";
-import { Container } from "../components/App.styled";
-import Credits from "./Credits";
-import Reviews from "./Reviews";
+import { Container } from "./App.styled";
+import Credits from "../Credits";
+import Reviews from "../Reviews/Reviews";
 
 export const App = () => {
   return (

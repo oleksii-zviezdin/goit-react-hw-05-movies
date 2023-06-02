@@ -1,13 +1,18 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react"
-import { fetchCreditsById } from "./fetchAPI"
+import { fetchCreditsById } from "../service/fetchAPI"
 
 const Credits = () => {
     const [dataCast, setDataCast] = useState([]);
     const { movieId } = useParams();
     
     useEffect(() => {
-        fetchCreditsById(movieId, setDataCast)
+        fetchCreditsById(movieId)
+        .then(({ cast }) => {
+        const filteCast = cast.filter(fCast => fCast.known_for_department === "Acting")
+        setDataCast(filteCast)
+    })
+    .catch(err => console.error('error:' + err));
     }, [movieId])    
     
     return (

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { fetchTrandingMovies } from "service/fetchAPI";
 import { useLocation } from "react-router-dom";
-import Loader from "components/Loader/Loader";
+import { LoaderCSS, LoaderWrapper } from '../../components/Loader/Loader.styled';
 import MovieList from "components/MovieList/MovieList";
 
 
@@ -23,12 +23,13 @@ const Home = () => {
 
     return (
         <main>
-            {isLoading && <Loader/>}  
-            {!isLoading &&
                 <>
                     <h1>Trending today</h1>
+            {isLoading &&  <LoaderWrapper>                 
+                                <LoaderCSS />
+                            </LoaderWrapper>}  
                     <MovieList data={data} location={urlLocation} />
-                </>}
+                </>
         </main>
     )
 }

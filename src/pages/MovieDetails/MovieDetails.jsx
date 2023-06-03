@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BackBtn from "components/backBtn";
 import { MovieDetailsStyled } from "./MovieDetails.styled";
-import Loader from "components/Loader/Loader";
+import { LoaderCSS, LoaderWrapper } from "components/Loader/Loader.styled";
 
 const MovieDetails = () => {
     const [dataMovie, setDataMovie] = useState(null);
@@ -29,8 +29,10 @@ const MovieDetails = () => {
         <>
             <Link to={urlLocation.state ? urlLocation.state.from  :'/movies'}><BackBtn /></Link>
             <MovieDetailsStyled>
-            {isLoading && <Loader/>}  
-            {!isLoading &&
+                {isLoading &&<LoaderWrapper>                 
+                                <LoaderCSS />
+                            </LoaderWrapper>}  
+            {dataMovie &&
                 <>
                     <div>
                         <img

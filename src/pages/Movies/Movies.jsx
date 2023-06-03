@@ -3,7 +3,7 @@ import { fetchSearchMovie } from "service/fetchAPI"
 import Searchbar from "components/Searchbar"
 import { useSearchParams, useLocation } from "react-router-dom"
 import MovieList from "components/MovieList/MovieList"
-import Loader from "components/Loader/Loader"
+import { LoaderCSS, LoaderWrapper } from "components/Loader/Loader.styled";
 
 const Movies = () => {
     const [data, setData] = useState([]);
@@ -51,10 +51,12 @@ console.log(previousMovieId)
 
     return (
         <main>
+            {isLoading &&  <LoaderWrapper>                 
+                                <LoaderCSS />
+                            </LoaderWrapper>}  
             <Searchbar handleSubmit={handleSubmit}/>
             {/* {data.length !== 0 && <MovieList data={data} location={urlLocation} />} */}
             {!isLoading && <MovieList data={data} location={urlLocation} />}
-            {isLoading && <Loader />}
         </main>
     )
 }

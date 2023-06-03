@@ -3,17 +3,22 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BackBtn from "components/backBtn";
 import { MovieDetailsStyled } from "./MovieDetails.styled";
+import Loader from "components/Loader/Loader";
 
 const MovieDetails = () => {
     const [dataMovie, setDataMovie] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const { movieId } = useParams();
     const urlLocation = useLocation();
     
     useEffect(() => {
+        setIsLoading(true)
+
         fetchMovieById(movieId)
         .then(movieData => setDataMovie(movieData))
-        .catch(err => console.error('error:' + err));
-    }, [movieId,]);
+            .catch(err => console.error('error:' + err))
+            .finally(setIsLoading(false));
+    }, [movieId]);
     
     if (!dataMovie) return
 
@@ -23,8 +28,9 @@ const MovieDetails = () => {
     return (
         <>
             <Link to={urlLocation.state ? urlLocation.state.from  :'/movies'}><BackBtn /></Link>
-        <MovieDetailsStyled>
-            {dataMovie &&
+            <MovieDetailsStyled>
+            {isLoading && <Loader/>}  
+            {!isLoading &&
                 <>
                     <div>
                         <img

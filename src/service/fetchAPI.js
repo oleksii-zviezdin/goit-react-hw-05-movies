@@ -24,7 +24,8 @@ const fetchTrandingMovies = data => {
 
 const fetchSearchMovie = value => {
     const url = `${BASE_URL}search/movie?query=${value}&include_adult=false&language=en-US&page=1`;
-    if(!value) return
+    if (!value) return
+    
     return fetch(url, options)
     .then(res => {
             if (!res.ok) throw new Error(`res.ok is "${res.ok}"`)
@@ -34,6 +35,7 @@ const fetchSearchMovie = value => {
 
 const fetchMovieById = (movieId) => {
     const url = `${BASE_URL}movie/${movieId}?language=en-US`;
+    if(!movieId || movieId === "") return
 
     return fetch(url, options)
     .then(res => {
@@ -54,6 +56,7 @@ const fetchCreditsById = (movieId) => {
 
 const fetchReviewsById = (movieId) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US&page=1`;
+
     return fetch(url, options)
     .then(res => {
             if (!res.ok) throw new Error(`res.ok is "${res.ok}"`)

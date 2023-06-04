@@ -1,30 +1,27 @@
-import { useState } from "react";
-import { SearchButton } from "../pages/Movies/Movies.styled"
+import { useState } from 'react';
+import { SearchButton } from '../pages/Movies/Movies.styled';
 
-export const Searchbar = ({handleSubmit}) => {
-    const [searchValue, setSearchValue] = useState('')
-    
-    const handleChange = e => {
-        const inputValue = e.currentTarget.value;
-        setSearchValue(inputValue.trim())
-    }
+export const Searchbar = ({ handleSubmit }) => {
+  const [searchValue, setSearchValue] = useState('');
 
-    const handleSubmitForm = e => {
-        e.preventDefault();
-        
-        if (!searchValue) return
-        handleSubmit(searchValue);
-    }
+  const handleChange = e => {
+    const inputValue = e.currentTarget.value;
+    setSearchValue(inputValue.trim());
+  };
 
-    return (
-            <form onSubmit={handleSubmitForm}>
-                <input
-                    onChange={handleChange}
-                    type="text"
-                />
-                <SearchButton type="submit">Search</SearchButton>
-            </form>
-    )
-}
+  const handleSubmitForm = e => {
+    e.preventDefault();
 
-export default Searchbar
+    if (!searchValue) return;
+    handleSubmit(searchValue);
+  };
+
+  return (
+    <form onSubmit={handleSubmitForm}>
+      <input onChange={handleChange} type="text" />
+      <SearchButton type="submit">Search</SearchButton>
+    </form>
+  );
+};
+
+export default Searchbar;

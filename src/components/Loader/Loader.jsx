@@ -1,9 +1,11 @@
-import {Rings} from 'react-loader-spinner'
+import { Rings } from 'react-loader-spinner'
+import { LoaderWrapper } from './Loader.styled';
 
 const Loader = () => {
-return (
-    <Rings 
-    />
+    return (
+    <LoaderWrapper>
+        <Rings/>
+    </LoaderWrapper>
 );
 };
 

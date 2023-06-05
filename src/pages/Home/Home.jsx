@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 import { fetchTrandingMovies } from 'service/fetchAPI';
-import { useLocation } from 'react-router-dom';
 import MovieList from 'components/MovieList/MovieList';
 import Loader from 'components/Loader/Loader';
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const urlLocation = useLocation();
 
   useEffect(() => {
     setIsLoading(true);
@@ -24,7 +21,7 @@ const Home = () => {
       {isLoading && <Loader />}
       <>
         <h1>Trending today</h1>
-        <MovieList data={data} location={urlLocation} />
+        <MovieList data={data} />
       </>
     </main>
   );

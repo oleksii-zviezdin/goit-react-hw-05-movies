@@ -1,6 +1,6 @@
 import { fetchMovieById } from 'service/fetchAPI';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import BackBtn from 'components/backBtn';
 import { MovieDetailsStyled } from './MovieDetails.styled';
 import Loader from 'components/Loader/Loader';
@@ -10,7 +10,7 @@ const MovieDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { movieId } = useParams();
   const urlLocation = useLocation();
-  // const previousUrlLocation = useRef(urlLocation?.state?.from ?? '/movies')
+  const previousUrlLocation = useRef(urlLocation?.state?.from ?? '/movies');
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,7 +32,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to={urlLocation?.state?.from ?? '/movies'}>
+      <Link to={previousUrlLocation.current}>
         <BackBtn />
       </Link>
       <MovieDetailsStyled>
@@ -69,13 +69,13 @@ const MovieDetails = () => {
         <ul>
           <Link
             to={`credits`}
-            state={{ from: urlLocation?.state?.from ?? '/movies' }}
+            // state={{ from: urlLocation?.state?.from ?? '/movies' }}
           >
             <li>Credits</li>
           </Link>
           <Link
             to={`reviews`}
-            state={{ from: urlLocation?.state?.from ?? '/movies' }}
+            // state={{ from: urlLocation?.state?.from ?? '/movies' }}
           >
             <li>Reviews</li>
           </Link>

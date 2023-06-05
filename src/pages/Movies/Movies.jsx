@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchSearchMovie } from 'service/fetchAPI';
 import Searchbar from 'components/Searchbar';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import MovieList from 'components/MovieList/MovieList';
 import Loader from 'components/Loader/Loader';
 
@@ -10,7 +10,6 @@ const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const movieId = searchParams.get(`movieId`) ?? '';
-  const urlLocation = useLocation();
 
   useEffect(() => {
     if (!movieId) return;
@@ -37,8 +36,8 @@ const Movies = () => {
     <main>
       {isLoading && <Loader />}
       <Searchbar handleSubmit={handleSubmit} />
-      {data.length !== 0 && <MovieList data={data} location={urlLocation} />}
-      {!isLoading && <MovieList data={data} location={urlLocation} />}
+      {data.length !== 0 && <MovieList data={data} />}
+      {!isLoading && <MovieList data={data} />}
     </main>
   );
 };
